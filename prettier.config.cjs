@@ -1,7 +1,7 @@
 /** @type {import("prettier").Config} */
 module.exports = {
   pluginSearchDirs: [__dirname],
-  plugins: [require.resolve("prettier-plugin-astro")],
+  plugins: ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
   overrides: [
     {
       files: "*.astro",
