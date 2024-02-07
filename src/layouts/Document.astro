@@ -23,6 +23,7 @@ const { title } = Astro.props;
     <ViewTransitions />
   </head>
   <body transition:animate="none">
+    <slot name="before" />
     <slot />
     <SpeedInsights />
     <style is:global>
