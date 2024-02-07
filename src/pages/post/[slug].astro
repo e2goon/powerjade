@@ -1,20 +1,23 @@
 ---
 export const prerender = true;
 
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import { formatDate } from "../../lib/dateUtils";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("posts");
-  return allPosts.map((entry, i) => ({
-    params: { slug: entry.slug },
-    props: {
-      entry,
-      prevPost: i === 0 ? undefined : allPosts[i - 1],
-      nextPost: i + 1 === allPosts.length ? undefined : allPosts[i + 1],
-    },
-  }));
+
+  return allPosts
+    .filter((post) => (import.meta.env.PROD ? post.data.draft !== true : true))
+    .map((entry, i) => ({
+      params: { slug: entry.slug },
+      props: {
+        entry,
+        prevPost: i === 0 ? undefined : allPosts[i - 1],
+        nextPost: i + 1 === allPosts.length ? undefined : allPosts[i + 1],
+      },
+    }));
 }
 
 const { entry, prevPost, nextPost } = Astro.props;
@@ -34,34 +37,35 @@ const { Content } = await entry.render();
       <Content />
     </div>
 
-    <hr class="my-10 border-zinc-800" />
-
-    <div>
-      <h2 class="sr-only">다른 포스트 보기</h2>
-      <div class="grid grid-cols-2">
-        {
-          prevPost && (
-            <a
-              href={`/post/${prevPost.slug}`}
-              class="underline decoration-wavy underline-offset-4"
-            >
-              👈
-              {prevPost.data.title}
-            </a>
-          )
-        }
-        {
-          nextPost && (
-            <a
-              href={`/post/${nextPost.slug}`}
-              class="col-start-2 text-right underline decoration-wavy underline-offset-4"
-            >
-              {nextPost.data.title}
-              👉
-            </a>
-          )
-        }
-      </div>
-    </div>
+    {
+      (prevPost || nextPost) && (
+        <>
+          <hr class="my-10 border-zinc-800" />
+          <div>
+            <h2 class="sr-only">다른 포스트 보기</h2>
+            <div class="grid grid-cols-2">
+              {prevPost && (
+                <a
+                  href={`/post/${prevPost.slug}`}
+                  class="underline decoration-wavy underline-offset-4"
+                >
+                  👈
+                  {prevPost.data.title}
+                </a>
+              )}
+              {nextPost && (
+                <a
+                  href={`/post/${nextPost.slug}`}
+                  class="col-start-2 text-right underline decoration-wavy underline-offset-4"
+                >
+                  {nextPost.data.title}
+                  👉
+                </a>
+              )}
+            </div>
+          </div>
+        </>
+      )
+    }
   </article>
 </Layout>
