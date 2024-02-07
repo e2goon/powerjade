@@ -2,13 +2,19 @@ import { defineConfig, squooshImageService } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 
-import react from "@astrojs/react";
+import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
 export default defineConfig({
+  output: "server",
   site: "https://powerjade.vercel.app",
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+  }),
   image: {
-    service: squooshImageService()
+    service: squooshImageService(),
   },
-  integrations: [sitemap(), tailwind(), react()]
+  integrations: [sitemap(), tailwind()],
 });
