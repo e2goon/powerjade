@@ -7,17 +7,19 @@ import { formatDate } from "../../lib/dateUtils";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("posts");
+  const publishedPosts = allPosts.filter((post) =>
+    import.meta.env.PROD ? post.data.draft !== true : true,
+  );
 
-  return allPosts
-    .filter((post) => (import.meta.env.PROD ? post.data.draft !== true : true))
-    .map((entry, i) => ({
-      params: { slug: entry.slug },
-      props: {
-        entry,
-        prevPost: i === 0 ? undefined : allPosts[i - 1],
-        nextPost: i + 1 === allPosts.length ? undefined : allPosts[i + 1],
-      },
-    }));
+  return publishedPosts.map((entry, i) => ({
+    params: { slug: entry.slug },
+    props: {
+      entry,
+      prevPost: i === 0 ? undefined : publishedPosts[i - 1],
+      nextPost:
+        i + 1 === publishedPosts.length ? undefined : publishedPosts[i + 1],
+    },
+  }));
 }
 
 const { entry, prevPost, nextPost } = Astro.props;
