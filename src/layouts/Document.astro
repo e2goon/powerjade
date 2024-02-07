@@ -1,5 +1,6 @@
 ---
 import "pretendard/dist/web/static/pretendard-dynamic-subset.css";
+import { ViewTransitions } from "astro:transitions";
 import SpeedInsights from "@vercel/speed-insights/astro";
 
 interface Props {
@@ -19,107 +20,107 @@ const { title } = Astro.props;
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ViewTransitions />
   </head>
-  <body>
+  <body transition:animate="none">
     <slot />
     <SpeedInsights />
-  </body>
-</html>
+    <style is:global>
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
 
-<style is:global>
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-
-  body {
-    @apply bg-white dark:bg-zinc-950 dark:text-yellow-50;
-  }
-
-  @layer components {
-    .markdown {
-      @apply leading-normal;
-
-      /* heading */
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        @apply mb-6 mt-10 font-bold;
+      body {
+        @apply bg-white dark:bg-zinc-950 dark:text-yellow-50;
       }
 
-      h1 {
-        @apply text-2xl md:text-3xl;
-      }
-      h2 {
-        @apply text-xl md:text-2xl;
-      }
-      h3 {
-        @apply text-lg md:text-xl;
-      }
-      h4 {
-        @apply text-base md:text-lg;
-      }
-      h5 {
-        @apply text-base;
-      }
-      h6 {
-        @apply text-base;
-      }
+      @layer components {
+        .markdown {
+          @apply leading-normal;
 
-      /* paragraph */
-      p {
-        @apply my-4;
-      }
+          /* heading */
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
+            @apply mb-6 mt-10 font-bold;
+          }
 
-      /* anchor */
-      a {
-        @apply text-blue-600 underline dark:text-blue-500;
-      }
+          h1 {
+            @apply text-2xl md:text-3xl;
+          }
+          h2 {
+            @apply text-xl md:text-2xl;
+          }
+          h3 {
+            @apply text-lg md:text-xl;
+          }
+          h4 {
+            @apply text-base md:text-lg;
+          }
+          h5 {
+            @apply text-base;
+          }
+          h6 {
+            @apply text-base;
+          }
 
-      /* inline code */
-      p code {
-        @apply rounded-md bg-zinc-200 px-1 py-0.5 text-xs font-semibold text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200;
-      }
+          /* paragraph */
+          p {
+            @apply my-4;
+          }
 
-      /* table */
-      tr {
-        @apply border-b border-t border-zinc-200;
-        th,
-        td {
-          @apply px-4 py-2;
+          /* anchor */
+          a {
+            @apply text-blue-600 underline dark:text-blue-500;
+          }
+
+          /* inline code */
+          p code {
+            @apply rounded-md bg-zinc-200 px-1 py-0.5 text-xs font-semibold text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200;
+          }
+
+          /* table */
+          tr {
+            @apply border-b border-t border-zinc-200;
+            th,
+            td {
+              @apply px-4 py-2;
+            }
+          }
+
+          /* list */
+          ol,
+          ul {
+            @apply pl-8;
+          }
+          ol {
+            @apply list-decimal;
+          }
+          ul {
+            @apply list-disc;
+          }
+          li::marker {
+            @apply text-zinc-500;
+          }
+
+          /* blockquote */
+          blockquote {
+            @apply relative pl-6 italic text-zinc-800 dark:text-yellow-50/70;
+
+            &::before {
+              content: "";
+              @apply absolute inset-0 right-auto w-1 bg-zinc-500 dark:bg-yellow-50/10;
+            }
+          }
+
+          .astro-code {
+            @apply rounded-lg p-4 text-sm;
+          }
         }
       }
-
-      /* list */
-      ol,
-      ul {
-        @apply pl-8;
-      }
-      ol {
-        @apply list-decimal;
-      }
-      ul {
-        @apply list-disc;
-      }
-      li::marker {
-        @apply text-zinc-500;
-      }
-
-      /* blockquote */
-      blockquote {
-        @apply relative pl-6 italic text-zinc-800 dark:text-yellow-50/70;
-
-        &::before {
-          content: "";
-          @apply absolute inset-0 right-auto w-1 bg-zinc-500 dark:bg-yellow-50/10;
-        }
-      }
-
-      .astro-code {
-        @apply rounded-lg p-4 text-sm;
-      }
-    }
-  }
-</style>
+    </style>
+  </body></html
+>
