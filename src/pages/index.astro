@@ -11,7 +11,7 @@ const allPosts = await getCollection("posts", (entry) => {
 ---
 
 <Layout title="powerjade">
-  <ul>
+  <ul class="space-y-4">
     {
       allPosts.map((post) => (
         <li>
