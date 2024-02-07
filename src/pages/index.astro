@@ -3,6 +3,7 @@ export const prerender = true;
 
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
+import { formatDate } from "../lib/dateUtils";
 
 const allPosts = await getCollection("posts", (entry) => {
   return import.meta.env.PROD ? entry.data.draft !== true : true;
@@ -12,12 +13,17 @@ const allPosts = await getCollection("posts", (entry) => {
 <Layout title="powerjade">
   <ul>
     {
-      allPosts.map((blogPostEntry) => (
+      allPosts.map((post) => (
         <li>
-          <a href={`/post/${blogPostEntry.slug}`}>{blogPostEntry.data.title}</a>
-          <time datetime={blogPostEntry.data.publishedDate.toISOString()}>
-            {blogPostEntry.data.publishedDate.toDateString()}
-          </time>
+          <a href={`/post/${post.slug}`} class="group inline-flex flex-col">
+            <span class="group-hover:underline">{post.data.title}</span>
+            <time
+              class="text-xs text-zinc-500"
+              datetime={post.data.publishedDate.toISOString()}
+            >
+              {formatDate(post.data.publishedDate)}
+            </time>
+          </a>
         </li>
       ))
     }

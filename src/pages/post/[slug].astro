@@ -3,6 +3,7 @@ export const prerender = true;
 
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import { formatDate } from "../../lib/dateUtils";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection("posts");
@@ -16,11 +17,13 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 ---
 
-<Layout title={entry.data.title}>
+<Layout title={`${entry.data.title} - powerjade`}>
   <article>
     <header class="text-center [&~.markdown]:mt-10">
       <h1 class="text-4xl font-bold leading-normal">{entry.data.title}</h1>
-      <time class="text-xs text-zinc-400">{entry.data.publishedDate}</time>
+      <time class="text-xs text-zinc-500">
+        {formatDate(entry.data.publishedDate)}
+      </time>
     </header>
     <div class="markdown">
       <Content />
