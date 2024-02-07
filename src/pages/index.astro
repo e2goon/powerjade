@@ -1,11 +1,23 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
+
+const allPosts = await getCollection("posts", (entry) => {
+  return import.meta.env.PROD ? entry.data.draft !== true : true;
+});
 ---
 
-<Layout title="Welcome to Astro.">
-  <main class="p-4">
-    <h1 class="rounded bg-blue-500 px-4 py-2 text-base font-bold text-white">
-      Hello?
-    </h1>
-  </main>
+<Layout title="powerjade">
+  <ul>
+    {
+      allPosts.map((blogPostEntry) => (
+        <li>
+          <a href={`/post/${blogPostEntry.slug}`}>{blogPostEntry.data.title}</a>
+          <time datetime={blogPostEntry.data.publishedDate.toISOString()}>
+            {blogPostEntry.data.publishedDate.toDateString()}
+          </time>
+        </li>
+      ))
+    }
+  </ul>
 </Layout>

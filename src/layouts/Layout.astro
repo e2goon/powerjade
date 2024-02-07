@@ -1,4 +1,6 @@
 ---
+import Document from "./Document.astro";
+
 interface Props {
   title: string;
 }
@@ -6,17 +8,13 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-  </head>
-  <body>
-    <slot />
-  </body>
-</html>
+<Document {title}>
+  <div class="mx-auto max-w-xl">
+    <header class="px-4 py-10 [&~main]:pt-0">
+      <a href="/" class="text-lg font-bold italic">powerjade</a>
+    </header>
+    <main class="p-4">
+      <slot />
+    </main>
+  </div>
+</Document>

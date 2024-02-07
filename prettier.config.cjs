@@ -11,4 +11,5 @@ module.exports = {
     },
   ],
   endOfLine: "auto",
+  htmlWhitespaceSensitivity: "strict",
 };
