@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://MY_SITE/sitemap-index.xml
+Sitemap: https://powerjade.vercel.app/sitemap-index.xml
